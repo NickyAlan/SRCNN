@@ -17,6 +17,7 @@ class SRCNN(nn.Module) :
 
         self.conv2d_layers = self._conv2d()
         self.conv2dT = nn.ConvTranspose2d(in_channels=12, out_channels=3, kernel_size=9, stride=2, padding=3)
+        self.sigmoid = nn.Sigmoid()
 
     def _conv2d(self) :
         cov2d_layers = []
@@ -34,6 +35,7 @@ class SRCNN(nn.Module) :
     def forward(self, x) :
         x = self.conv2d_layers(x)
         x = self.conv2dT(x)
+        x = self.sigmoid(x) # [0,1]
         return x
 
 if __name__ == '__main__' :
