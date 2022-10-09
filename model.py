@@ -5,7 +5,8 @@ from torch import conv2d, nn
 # in_channels, out_channesls, kernels and after is Relu
 config_conv2d = [ 
     (3, 65, 5),
-    (65, 12, 1),
+    (65, 32, 1),
+    (32, 12, 1),
     (12, 12, 3),
     (12, 12, 3),
     (12, 12, 3),
@@ -35,11 +36,10 @@ class SRCNN(nn.Module) :
     def forward(self, x) :
         x = self.conv2d_layers(x)
         x = self.conv2dT(x)
-        x = self.sigmoid(x) # [0,1]
         return x
 
 if __name__ == '__main__' :
-    image = torch.randn(size=(8,3,64,64)) # B  C W H
+    image = torch.randn(size=(8,3,128,128)) # B  C W H
     model = SRCNN(in_channels=3)
     x = model.forward(image)
     print(x.shape)

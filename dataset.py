@@ -6,13 +6,13 @@ from torch.utils.data import DataLoader
 from PIL import Image
 
 
-BATCH_SIZE = 8
+BATCH_SIZE = 32
 
 images_dir = './images_dataset'
 images_path = [os.path.join(images_dir, image_name) for image_name in  os.listdir(images_dir)]
 
 
-def toTensor(images_path , to_size = (64,129)):
+def toTensor(images_path , to_size = (128,257)):
     full_tensor = []
     input_transformer = transforms.Compose([transforms.Resize((to_size[0], to_size[0]))])
     output_transformer = transforms.Compose([transforms.Resize((to_size[1], to_size[1]))])
@@ -26,5 +26,5 @@ def toTensor(images_path , to_size = (64,129)):
 
 
 # 64x64 -> 129x129
-train_data = toTensor(images_path, to_size=(64,129))
+train_data = toTensor(images_path, to_size=(128,257))
 train_dataloader = DataLoader(train_data, batch_size=BATCH_SIZE, shuffle=True)

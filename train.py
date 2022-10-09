@@ -15,7 +15,7 @@ def train_step(model, dataloader, loss_fn, optimizer) :
 
         #forward pass
         y_pred = model(x) # same as model.forward(x)
-        loss = loss_fn(y_pred, y)
+        loss = loss_fn(torch.sigmoid(y_pred), y) # [0,1] scale image
         train_loss += loss.item()
 
         optimizer.zero_grad()
@@ -27,24 +27,6 @@ def train_step(model, dataloader, loss_fn, optimizer) :
     # adjust to take avg for each batch
     train_loss = train_loss / len(dataloader)
     return train_loss
-
-def test_step(model: torch.nn.Module, 
-              dataloader: torch.utils.data.DataLoader, 
-              loss_fn: torch.nn.Module):
-    
-    model.eval() 
-    test_loss = 0
-    
-    # Turn on inference context manager
-    with torch.inference_mode():
-
-        for batch, (x, y) in enumerate(dataloader):
-            x, y = x.to(device), y.to(device)
-            y_pred = model(x)
-            
-    # Adjust metrics to get average loss and accuracy per batch 
-    test_loss = test_loss / len(dataloader)
-    return test_loss
 
 
 def train_model(model: torch.nn.Module, 
